@@ -9,5 +9,4 @@ yarn-error.log
 coverage
 package-lock.json
 *.log
-controllers
 
