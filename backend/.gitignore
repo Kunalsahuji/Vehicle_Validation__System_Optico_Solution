@@ -10,6 +10,5 @@ coverage
 package-lock.json
 *.log
 middlewares
-models
 controllers
 utils
