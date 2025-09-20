@@ -10,5 +10,4 @@ coverage
 package-lock.json
 *.log
 controllers
-utils
 

@@ -6,4 +6,4 @@ const authrizeRoles = (...roles) => {
         next();
     }
 }
-export default authrizeRoles;
+module.exports = authrizeRoles;
