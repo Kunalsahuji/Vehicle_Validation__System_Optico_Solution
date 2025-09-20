@@ -1,7 +1,7 @@
 const express = require('express');
 
-const protect = require('../middleware/authMiddleware');
-const authorizeRoles = require('../middleware/roleMiddleware');
+const protect = require('../middlewares/authMiddleware');
+const authorizeRoles = require('../middlewares/roleMiddleware');
 const {
     createVehicle,
     getVehicles,
