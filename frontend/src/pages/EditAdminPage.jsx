@@ -64,114 +64,101 @@ export default function EditAdminPage() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="text-center mt-6">Loading...</div>;
 
   return (
-    <div className="max-w-3xl mx-auto bg-white p-6 rounded shadow">
-      <h2 className="text-xl font-semibold mb-4">Edit Admin</h2>
-      <form onSubmit={handleSubmit}>
-        <table className="w-full border-collapse">
-          <tbody>
-            <tr>
-              <td className="p-3 font-medium w-1/3">Name</td>
-              <td className="p-3">
-                <input
-                  type="text"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  className="w-full border px-3 py-2 rounded"
-                />
-              </td>
-            </tr>
+    <div className="max-w-3xl mx-auto mt-6 mb-10 px-4">
+      <div className="bg-white shadow-xl rounded-2xl p-6 md:p-8">
+        <h2 className="text-2xl font-semibold mb-6 text-center">Edit Admin</h2>
 
-            <tr>
-              <td className="p-3 font-medium">Designation</td>
-              <td className="p-3">
-                <input
-                  type="text"
-                  name="designation"
-                  value={form.designation}
-                  onChange={handleChange}
-                  className="w-full border px-3 py-2 rounded"
-                />
-              </td>
-            </tr>
+        <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>
+          <div>
+            <label className="block text-sm font-medium mb-1">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
 
-            <tr>
-              <td className="p-3 font-medium">Email</td>
-              <td className="p-3">
-                <input
-                  type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  className="w-full border px-3 py-2 rounded"
-                />
-              </td>
-            </tr>
+          <div>
+            <label className="block text-sm font-medium mb-1">Designation</label>
+            <input
+              type="text"
+              name="designation"
+              value={form.designation}
+              onChange={handleChange}
+              className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-            <tr>
-              <td className="p-3 font-medium">Contact Number</td>
-              <td className="p-3">
-                <input
-                  type="text"
-                  name="mobile"
-                  value={form.mobile}
-                  onChange={handleChange}
-                  className="w-full border px-3 py-2 rounded"
-                />
-              </td>
-            </tr>
+          <div>
+            <label className="block text-sm font-medium mb-1">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-            <tr>
-              <td className="p-3 font-medium">Address</td>
-              <td className="p-3">
-                <textarea
-                  name="address"
-                  value={form.address}
-                  onChange={handleChange}
-                  className="w-full border px-3 py-2 rounded"
-                />
-              </td>
-            </tr>
+          <div>
+            <label className="block text-sm font-medium mb-1">Contact Number</label>
+            <input
+              type="text"
+              name="mobile"
+              value={form.mobile}
+              onChange={handleChange}
+              className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-            <tr>
-              <td className="p-3 font-medium">Role</td>
-              <td className="p-3">
-                <select
-                  name="role"
-                  value={form.role}
-                  onChange={handleChange}
-                  disabled={user.role !== "superadmin"} // 🔒 prevent role change
-                  className="w-full border px-3 py-2 rounded disabled:bg-gray-100"
-                >
-                  <option value="admin">Admin</option>
-                  {user.role === "superadmin" && (
-                    <option value="superadmin">Super Admin</option>
-                  )}
-                </select>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium mb-1">Address</label>
+            <textarea
+              name="address"
+              value={form.address}
+              onChange={handleChange}
+              rows={3}
+              className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        <div className="flex justify-end gap-3 mt-6">
-          <button
-            type="button"
-            onClick={() => navigate("/admin-panel")}
-            className="px-4 py-2 border rounded"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Save
-          </button>
-        </div>
-      </form>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium mb-1">Role</label>
+            <select
+              name="role"
+              value={form.role}
+              onChange={handleChange}
+              disabled={user.role !== "superadmin"} // prevent role change for admin
+              className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+            >
+              <option value="admin">Admin</option>
+              {user.role === "superadmin" && <option value="superadmin">Super Admin</option>}
+            </select>
+          </div>
+
+          <div className="md:col-span-2 flex justify-end gap-3 mt-4">
+            <button
+              type="button"
+              onClick={() => navigate("/admin-panel")}
+              className="px-6 py-2 border rounded-lg hover:bg-gray-100 transition"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

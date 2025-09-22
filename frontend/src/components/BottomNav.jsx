@@ -20,7 +20,7 @@ export default function BottomNav() {
       ? { to: "/admin-panel", label: "Admin", icon: IoShieldCheckmark }
       : { to: "/notifications", label: "Notif", icon: IoNotifications },
     { to: "/profile", label: "Profile", icon: IoPerson },
-    { to: "/home", label: "More", icon: IoSettings },
+    // { to: "/home", label: "More", icon: IoSettings },
   ];
 
   return (

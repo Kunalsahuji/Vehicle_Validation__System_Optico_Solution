@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import vehicleService from "../services/vehicleService";
 
 export default function VehicleDetails() {
@@ -25,58 +26,82 @@ export default function VehicleDetails() {
     try {
       await vehicleService.remove(id);
       toast.success("Vehicle deleted successfully!");
-      navigate(`/vehicle/${id}`); // redirect back to vehicle details
+      navigate("/vehicles"); // Redirect to list page after delete
     } catch (error) {
       toast.error("Failed to delete vehicle");
     }
   };
 
-  if (err) return <div className="text-red-600">{err}</div>;
-  if (!v) return <div>Loading...</div>;
+  if (err)
+    return <div className="text-center text-red-600 font-medium mt-6">{err}</div>;
+
+  if (!v)
+    return (
+      <div className="flex justify-center items-center h-[70vh]">
+        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow max-w-2xl mx-auto mt-6">
-      <h3 className="text-xl font-semibold mb-4 border-b pb-2">
-        Vehicle Details
-      </h3>
+    <div className="p-4 sm:p-6 lg:p-10">
+      <div className="bg-white shadow-xl rounded-xl max-w-3xl mx-auto p-6 md:p-8">
+        {/* Title */}
+        <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center border-b pb-3">
+          Vehicle Details
+        </h3>
 
-      <h2 className="text-2xl font-semibold mb-3">
-        {v.vehicleNumber}{" "}
-        <span className="text-sm text-gray-500">({v.passNumber})</span>
-      </h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-        <div><strong>Vehicle Number:</strong> {v.vehicleNumber}</div>
-        <div><strong>Pass Number:</strong> {v.passNumber}</div>
-        <div><strong>Flat Number:</strong> {v.flatNumber}</div>
-        <div><strong>Owner Name:</strong> {v.ownerName}</div>
-        <div><strong>Owner Contact:</strong> {v.ownerContact}</div>
-        <div><strong>Flat Owner Name:</strong> {v.flatOwnerName}</div>
-        <div><strong>Flat Owner Contact:</strong> {v.flatOwnerContact}</div>
-        <div><strong>DL/RC Number:</strong> {v.dlOrRcNumber}</div>
-        <div><strong>Vehicle Type:</strong> {v.vehicleType}</div>
-        <div><strong>Valid Till:</strong> {new Date(v.validTill).toLocaleDateString()}</div>
-        <div className="md:col-span-2">
-          <strong>Address</strong>
-          <div>{v.permanentAddress}</div>
+        {/* Vehicle Header */}
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl font-semibold text-blue-700">
+            {v.vehicleNumber}
+          </h2>
+          <p className="text-gray-500">Pass No: {v.passNumber}</p>
         </div>
-      </div>
 
-      {/* Actions */}
-      <div className="flex justify-end gap-3">
-        <Link
-          to={`/vehicle/${id}/edit`}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-        >
-          Edit
-        </Link>
-        <button
-          onClick={handleDelete}
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-        >
-          Delete
-        </button>
+        {/* Vehicle Info Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <Info label="Vehicle Number" value={v.vehicleNumber} />
+          <Info label="Pass Number" value={v.passNumber} />
+          <Info label="Flat Number" value={v.flatNumber} />
+          <Info label="Owner Name" value={v.ownerName} />
+          <Info label="Owner Contact" value={v.ownerContact} />
+          <Info label="Flat Owner Name" value={v.flatOwnerName} />
+          <Info label="Flat Owner Contact" value={v.flatOwnerContact} />
+          <Info label="DL/RC Number" value={v.dlOrRcNumber} />
+          <Info label="Vehicle Type" value={v.vehicleType} />
+          <Info
+            label="Valid Till"
+            value={new Date(v.validTill).toLocaleDateString()}
+          />
+          <div className="sm:col-span-2">
+            <Info label="Address" value={v.permanentAddress} />
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
+          <Link
+            to={`/vehicle/${id}/edit`}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            <FaEdit /> Edit
+          </Link>
+          <button
+            onClick={handleDelete}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+          >
+            <FaTrashAlt /> Delete
+          </button>
+        </div>
       </div>
     </div>
   );
 }
+
+/* ✅ Reusable Info Component */
+const Info = ({ label, value }) => (
+  <div className="p-3 border rounded-lg hover:shadow-md transition bg-gray-50">
+    <p className="text-sm text-gray-500">{label}</p>
+    <p className="font-medium text-gray-800">{value || "N/A"}</p>
+  </div>
+);
