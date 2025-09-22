@@ -7,6 +7,8 @@ const getAll = async () => {
 
 const getById = async (id) => {
     const res = await API.get(`/vehicles/${id}`);
+    if (!res.ok) throw new Error("Vehicle not found");
+
     return res.data;
 };
 

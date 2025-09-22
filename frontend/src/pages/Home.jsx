@@ -29,7 +29,6 @@ export default function Home() {
         try {
             const res = await vehicleService.search(query);
             setResult(res);
-            console.log("search result", res);
         } catch (error) {
             console.log(error);
             setErr(error.response?.data?.message || "Not found");

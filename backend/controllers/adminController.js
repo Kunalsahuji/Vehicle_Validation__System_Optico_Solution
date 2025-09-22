@@ -3,7 +3,6 @@ const User = require("../models/user");
 exports.getAdmins = async (req, res) => {
     try {
         const admins = await User.find({ role: "admin" }).select("-password");
-        console.log(`admins: ${admins}`);
         res.status(200).json(admins);
     } catch (error) {
         console.log(error.message);
