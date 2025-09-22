@@ -1,0 +1,25 @@
+{
+    // ✅ Fix Tailwind v4 unknown at-rule warnings
+    "css.lint.unknownAtRules": "ignore",
+    "scss.lint.unknownAtRules": "ignore",
+    "less.lint.unknownAtRules": "ignore",
+    // ✅ Enable Tailwind IntelliSense
+    "tailwindCSS.experimental.configFile": null,
+    "tailwindCSS.includeLanguages": {
+        "plaintext": "html",
+        "javascript": "javascript",
+        "javascriptreact": "javascript",
+        "typescript": "typescript",
+        "typescriptreact": "typescript"
+    },
+    // ✅ Make sure IntelliSense works in CSS files
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    // ✅ Auto-format Tailwind classes nicely
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "always",
+        "source.organizeImports": "always"
+    }
+}
