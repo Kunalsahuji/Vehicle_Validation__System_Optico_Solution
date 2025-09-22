@@ -4,7 +4,7 @@ const authorizeRoles = require('../middlewares/roleMiddleware');
 const { getAdmins, getAdminById, updateAdmin, deleteAdmin } = require('../controllers/adminController');
 const router = express.Router();
 router.use(protect);
-router.use(authorizeRoles('super-admin'));
+router.use(authorizeRoles('superadmin'));
 router.get('/', getAdmins);
 router.get('/:id', getAdminById);
 router.put('/:id', updateAdmin);

@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 export default function AddVehicle() {
     const [form, setForm] = useState({
         vehicleNumber: "", passNumber: "", flatNumber: "", ownerName: "", dlOrRcNumber: "", ownerContact: "",
-        alternateContact: "", email: "", permanentAddress: "", flatOwnerName: "", validTill: ""
+        alternateContact: "", email: "", permanentAddress: "",
+        flatOwnerName: "", validTill: "", flatOwnerContact: "", vehicleType: ""
     });
     const [err, setErr] = useState("");
     const navigate = useNavigate();
@@ -28,11 +29,16 @@ export default function AddVehicle() {
             <h3 className="text-xl font-semibold mb-4">Add Vehicle</h3>
             {err && <div className="text-red-600 mb-3">{err}</div>}
             <form onSubmit={handleSubmit}>
+                {/* add flat-owner-name & flat-owner-contact */}
                 <InputField label="Vehicle Number" name="vehicleNumber" value={form.vehicleNumber} onChange={handleChange} required />
                 <InputField label="Pass Number" name="passNumber" value={form.passNumber} onChange={handleChange} required />
                 <InputField label="Flat Number" name="flatNumber" value={form.flatNumber} onChange={handleChange} required />
                 <InputField label="Owner Name" name="ownerName" value={form.ownerName} onChange={handleChange} required />
                 <InputField label="Owner Contact" name="ownerContact" value={form.ownerContact} onChange={handleChange} required />
+                <InputField label="RL/DC Number" name="dlOrRcNumber" value={form.dlOrRcNumber} onChange={handleChange} />
+                <InputField label="vehicleType" name="vehicleType" value={form.vehicleType} onChange={handleChange} />
+                <InputField label="Flat Owner Name" name="flatOwnerName" value={form.flatOwnerName} onChange={handleChange} />
+                <InputField label="Flat Owner Contact" name="flatOwnerContact" value={form.flatOwnerContact} onChange={handleChange} />
                 <InputField label="Valid Till" name="validTill" type="date" value={form.validTill} onChange={handleChange} required />
                 <div className="flex gap-3 mt-3">
                     <button className="px-4 py-2 bg-accent text-white rounded">Save</button>

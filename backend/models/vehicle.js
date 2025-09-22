@@ -11,7 +11,10 @@ const vehicleSchema = new mongoose.Schema(
         email: { type: String },
         permanentAddress: { type: String },
         flatOwnerName: { type: String }, // if rented
+        flatOwnerContact: { type: String }, // if rented
+        vehicleType: { type: String, enum: ['car', 'bike', 'truck', 'scooter', 'other'], required: true },
         validTill: { type: Date, required: true },
+
         createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Admin/SuperAdmin who added
     },
     { timestamps: true }

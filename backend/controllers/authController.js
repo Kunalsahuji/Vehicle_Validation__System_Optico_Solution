@@ -19,6 +19,7 @@ exports.registerUser = async (req, res) => {
             email: user.email,
             role: user.role,
             mobile: user.mobile,
+            designation: user.designation,
             token: generateToken(user._id, user.role)
         });
     } catch (error) {
