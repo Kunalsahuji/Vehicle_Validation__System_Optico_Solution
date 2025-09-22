@@ -12,7 +12,7 @@ import AdminPanel from "./pages/AdminPanel";
 import EditAdminPage from "./pages/EditAdminPage";
 import Profile from "./pages/Profile";
 import BootstrapSuperAdmin from "./pages/BootstrapSuperAdmin";
-
+import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 
@@ -31,6 +31,7 @@ const App = () => {
         <Routes>
           {/* Default redirect */}
           <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="*" element={<NotFoundPage />} />
 
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
