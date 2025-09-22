@@ -1,51 +1,47 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { IoHome, IoAddCircle, IoNotifications, IoPerson, IoSettings } from "react-icons/io5";
+import { NavLink } from "react-router-dom";
+import {
+  IoHome,
+  IoAddCircle,
+  IoNotifications,
+  IoPerson,
+  IoSettings,
+  IoShieldCheckmark,
+} from "react-icons/io5";
+import { useAuth } from "../context/AuthContext";
 
 export default function BottomNav() {
+  const { user } = useAuth();
+
+  const links = [
+    { to: "/home", label: "Home", icon: IoHome },
+    { to: "/add-vehicle", label: "Add", icon: IoAddCircle },
+    user && (user.role === "admin" || user.role === "superadmin")
+      ? { to: "/admin-panel", label: "Admin", icon: IoShieldCheckmark }
+      : { to: "/notifications", label: "Notif", icon: IoNotifications },
+    { to: "/profile", label: "Profile", icon: IoPerson },
+    { to: "/home", label: "More", icon: IoSettings },
+  ];
+
   return (
-    <div className="fixed bottom-3 w-full shadow-lg rounded-xl py-2">
-      <div className="flex justify-between items-center px-6">
-        {/* Each link has a fixed base style to avoid layout shift */}
-        <Link
-          to="/home"
-          className="flex flex-col items-center text-sm px-3 py-2 rounded-lg border border-transparent transition-all duration-200 ease-in-out hover:bg-accent hover:border-accent hover:scale-105"
-        >
-          <IoHome size={22} />
-          <span>Home</span>
-        </Link>
-
-        <Link
-          to="/add-vehicle"
-          className="flex flex-col items-center text-sm px-3 py-2 rounded-lg border border-transparent transition-all duration-200 ease-in-out hover:bg-accent hover:border-accent hover:scale-105"
-        >
-          <IoAddCircle size={22} />
-          <span>Add</span>
-        </Link>
-
-        <Link
-          to="/notifications"
-          className="flex flex-col items-center text-sm px-3 py-2 rounded-lg border border-transparent transition-all duration-200 ease-in-out hover:bg-accent hover:border-accent hover:scale-105"
-        >
-          <IoNotifications size={22} />
-          <span>Notif</span>
-        </Link>
-
-        <Link
-          to="/profile"
-          className="flex flex-col items-center text-sm px-3 py-2 rounded-lg border border-transparent transition-all duration-200 ease-in-out hover:bg-accent hover:border-accent hover:scale-105"
-        >
-          <IoPerson size={22} />
-          <span>Profile</span>
-        </Link>
-
-        <Link
-          to="/settings"
-          className="flex flex-col items-center text-sm px-3 py-2 rounded-lg border border-transparent transition-all duration-200 ease-in-out hover:bg-accent hover:border-accent hover:scale-105"
-        >
-          <IoSettings size={22} />
-          <span>More</span>
-        </Link>
+    <div className="fixed bottom-3 left-1/2 -translate-x-1/2 w-[95%] md:w-[70%] lg:w-[50%] bg-white/90 backdrop-blur-md shadow-lg rounded-2xl py-2 border border-gray-200">
+      <div className="flex justify-between items-center px-4">
+        {links.map(({ to, label, icon: Icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            className={({ isActive }) =>
+              `flex flex-col items-center text-xs font-medium px-3 py-2 rounded-lg transition-all duration-200 ease-in-out ${
+                isActive
+                  ? "text-blue-600 bg-blue-50 scale-105"
+                  : "text-gray-600 hover:bg-gray-100 hover:scale-105"
+              }`
+            }
+          >
+            <Icon size={22} />
+            <span>{label}</span>
+          </NavLink>
+        ))}
       </div>
     </div>
   );

@@ -53,34 +53,70 @@ exports.deleteVehicle = async (req, res) => {
         res.status(500).json({ message: "Failed to delete vehicle", error: error.message });
     }
 }
+// exports.searchVehicle = async (req, res) => {
+
+//     const { query } = req.query; // ?query=3162 or ?query=T25FC600
+
+//     if (!query) {
+//         return res.status(400).json({ message: "Search query is required" });
+//     }
+
+//     try {
+//         // Normalize query (remove spaces, uppercase for consistency)
+//         const normalizedQuery = query.replace(/\s+/g, "").toUpperCase();
+
+//         const vehicle = await Vehicle.findOne({
+//             $or: [
+//                 // Match full/partial vehicleNumber (case-insensitive)
+//                 { vehicleNumber: { $regex: normalizedQuery, $options: "i" } },
+
+//                 // Match full/partial passNumber (case-insensitive)
+//                 { passNumber: { $regex: normalizedQuery, $options: "i" } },
+//             ],
+//         });
+
+//         if (!vehicle || vehicle.length === 0) return res.status(404).json({ message: "No vehicle found" });
+//         if (!vehicle || vehicle.createdBy.toString() !== req.user._id.toString()) {
+//             return res.status(404).json({ message: "No vehicle found" });
+//         }
+
+//         res.status(200).json(vehicle);
+//     } catch (error) {
+//         res.status(500).json({ message: "Failed to search vehicle", error: error.message });
+//     }
+// };
 exports.searchVehicle = async (req, res) => {
-    const { query } = req.query; // ?query=3162 or ?query=T25FC600
+    const { query } = req.query; // e.g. /vehicles/search?query=3162
 
     if (!query) {
         return res.status(400).json({ message: "Search query is required" });
     }
 
     try {
-        // Normalize query (remove spaces, uppercase for consistency)
+        // Normalize input: remove spaces + uppercase
         const normalizedQuery = query.replace(/\s+/g, "").toUpperCase();
 
-        const vehicle = await Vehicle.findOne({
-            $or: [
-                // Match full/partial vehicleNumber (case-insensitive)
-                { vehicleNumber: { $regex: normalizedQuery, $options: "i" } },
+        // Build search conditions
+        const conditions = [
+            { vehicleNumber: { $regex: normalizedQuery, $options: "i" } },
+            { passNumber: { $regex: normalizedQuery, $options: "i" } },
+        ];
 
-                // Match full/partial passNumber (case-insensitive)
-                { passNumber: { $regex: normalizedQuery, $options: "i" } },
-            ],
-        });
-
-        if (!vehicle || vehicle.length === 0) return res.status(404).json({ message: "No vehicle found" });
-        if (!vehicle || vehicle.createdBy.toString() !== req.user._id.toString()) {
-            return res.status(404).json({ message: "No vehicle found" });
+        // ✅ If user is "security", only allow vehicles created by them
+        if (req.user.role === "security") {
+            conditions.forEach((c) => (c.createdBy = req.user._id)); 
         }
 
-        res.status(200).json(vehicle);
+        // Search multiple vehicles
+        const vehicles = await Vehicle.find({ $or: conditions });
+
+        if (!vehicles || vehicles.length === 0) {
+            return res.status(404).json({ message: "No vehicle found" });
+        }
+console.log(`vehicles details: ${vehicles}`)
+        res.status(200).json(vehicles);
     } catch (error) {
+        console.error(error.message);
         res.status(500).json({ message: "Failed to search vehicle", error: error.message });
     }
 };

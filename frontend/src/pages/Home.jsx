@@ -5,7 +5,7 @@ import { normalizeNumber } from "../utils/format";
 
 export default function Home() {
     const [query, setQuery] = useState("");
-    const [result, setResult] = useState(null);
+    const [result, setResult] = useState([]);
     const [all, setAll] = useState([]);
     const [err, setErr] = useState("");
 
@@ -17,6 +17,7 @@ export default function Home() {
                 setAll(v);
             } catch {
                 // ignore if not allowed
+
             }
         })();
     }, []);
@@ -28,9 +29,11 @@ export default function Home() {
         try {
             const res = await vehicleService.search(query);
             setResult(res);
+            console.log("search result", res);
         } catch (error) {
+            console.log(error);
             setErr(error.response?.data?.message || "Not found");
-            setResult(null);
+            setResult([]);
         }
     };
 
@@ -50,12 +53,23 @@ export default function Home() {
 
                     {err && <div className="text-red-600 mt-3">{err}</div>}
 
-                    {result && (
-                        <div className="mt-4 p-3 border rounded">
-                            <h3 className="text-lg font-semibold">{result.vehicleNumber} — {result.passNumber}</h3>
-                            <p className="text-sm text-gray-600">Owner: {result.ownerName}</p>
-                            <p className="text-sm text-gray-600">Flat: {result.flatNumber}</p>
-                            <Link to={`/vehicle/${result._id}`} className="text-accent mt-2 inline-block">View Details</Link>
+                    {result.length > 0 && (
+                        <div className="mt-4 space-y-3">
+                            {result.map((v) => (
+                                <div key={v._id} className="p-3 border rounded bg-gray-50">
+                                    <h3 className="text-lg font-semibold">
+                                        {v.vehicleNumber} — {v.passNumber}
+                                    </h3>
+                                    <p className="text-sm text-gray-600">Owner: {v.ownerName}</p>
+                                    <p className="text-sm text-gray-600">Flat: {v.flatNumber}</p>
+                                    <Link
+                                        to={`/vehicle/${v._id}`}
+                                        className="text-blue-600 mt-2 inline-block"
+                                    >
+                                        View Details
+                                    </Link>
+                                </div>
+                            ))}
                         </div>
                     )}
                 </div>

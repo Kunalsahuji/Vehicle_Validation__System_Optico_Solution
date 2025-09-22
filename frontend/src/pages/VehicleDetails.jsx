@@ -25,7 +25,7 @@ export default function VehicleDetails() {
     try {
       await vehicleService.remove(id);
       toast.success("Vehicle deleted successfully!");
-      navigate(`/vehicle/${id}`);
+      navigate(`/vehicle/${id}`); // redirect back to vehicle details
     } catch (error) {
       toast.error("Failed to delete vehicle");
     }
