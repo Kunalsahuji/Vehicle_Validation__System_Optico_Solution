@@ -3,8 +3,10 @@ const User = require("../models/user");
 exports.getAdmins = async (req, res) => {
     try {
         const admins = await User.find({ role: "admin" }).select("-password");
+        console.log(`admins: ${admins}`);
         res.status(200).json(admins);
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "Failed to retrieve admins", error: error.message });
     }
 }
@@ -17,6 +19,7 @@ exports.getAdminById = async (req, res) => {
         }
         res.status(200).json(admin);
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "Failed to retrieve admin", error: error.message });
     }
 }
@@ -33,6 +36,7 @@ exports.updateAdmin = async (req, res) => {
         }
         res.status(200).json(updatedAdmin);
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "Failed to update admin", error: error.message });
     }
 }
@@ -45,6 +49,7 @@ exports.deleteAdmin = async (req, res) => {
         }
         res.status(200).json({ message: "Admin deleted successfully" });
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "Failed to delete admin", error: error.message });
     }
 }

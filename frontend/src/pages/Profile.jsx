@@ -3,6 +3,8 @@ import { useAuth } from "../context/AuthContext";
 
 export default function Profile() {
     const { user } = useAuth();
+    // user in json format:
+    console.log("user in profile:", user);
     if (!user) return <div>Please login</div>;
     return (
         <div className="bg-white p-6 rounded shadow max-w-md mx-auto">
@@ -10,7 +12,7 @@ export default function Profile() {
             <div><strong>Name:</strong> {user.name}</div>
             <div><strong>Role:</strong> {user.role}</div>
             <div><strong>Email:</strong> {user.email}</div>
-            <div><strong>Mobile:</strong> {user.mobile}</div>
+            <div><strong>Mobile:</strong> {user?.mobile}</div>
         </div>
     );
 }

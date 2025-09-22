@@ -2,8 +2,10 @@ const Vehicle = require('../models/vehicle');
 exports.createVehicle = async (req, res) => {
     try {
         const vehicle = await Vehicle.create({ ...req.body, createdBy: req.user._id });
+        await vehicle.save();
         res.status(201).json(vehicle);
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "Failed to create vehicle", error: error.message });
     }
 }
@@ -12,6 +14,7 @@ exports.getVehicles = async (req, res) => {
         const vehicles = await Vehicle.find();
         res.status(200).json(vehicles);
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "Failed to retrieve vehicles", error: error.message });
     }
 }
@@ -23,6 +26,7 @@ exports.getVehicleById = async (req, res) => {
         }
         res.status(200).json(vehicle);
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "Failed to retrieve vehicle", error: error.message });
     }
 }
@@ -34,6 +38,7 @@ exports.updateVehicle = async (req, res) => {
         }
         res.status(200).json(vehicle);
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "Failed to update vehicle", error: error.message });
     }
 }

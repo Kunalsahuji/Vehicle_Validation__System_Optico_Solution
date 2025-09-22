@@ -26,8 +26,9 @@ const remove = async (id) => {
 };
 
 const search = async (query) => {
-    const res = await API.get(`/vehicles/search/query?query=${encodeURIComponent(query)}`);
+    const res = await API.get(`/vehicles/search?query=${encodeURIComponent(query)}`);
     return res.data;
 };
 
 export default { getAll, getById, create, update, remove, search };
+

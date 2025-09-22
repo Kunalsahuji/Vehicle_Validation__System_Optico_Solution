@@ -1,4 +1,3 @@
-// import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import BottomNav from "./components/BottomNav";
@@ -11,7 +10,7 @@ import AddAdmin from "./pages/AddAdmin";
 import AdminPanel from "./pages/AdminPanel";
 import Profile from "./pages/Profile";
 import BootstrapSuperAdmin from "./pages/BootstrapSuperAdmin";
-
+import EditVehiclePage from "./pages/EditVehiclePage";   
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 
@@ -19,7 +18,7 @@ const App = () => {
   const { user } = useAuth();
 
   return (
-    <div className="min-h-screen flex flex-col ">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1 container mx-auto px-4 py-6 mb-16">
         <Routes>
@@ -27,6 +26,14 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/vehicle/:id" element={<VehicleDetails />} />
+          <Route
+            path="/vehicle/:id/edit"
+            element={
+              <ProtectedRoute roles={["superadmin", "admin"]}>
+                <EditVehiclePage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/bootstrap-superadmin" element={<BootstrapSuperAdmin />} />
 
           <Route
@@ -67,6 +74,6 @@ const App = () => {
       <BottomNav />
     </div>
   );
-}
+};
 
 export default App;

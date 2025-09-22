@@ -23,6 +23,7 @@ exports.registerUser = async (req, res) => {
             token: generateToken(user._id, user.role)
         });
     } catch (error) {
+        console.log(error.message);
         res.status(400).json({ message: "User registration failed", error: error.message });
     }
 }
@@ -39,12 +40,15 @@ exports.loginUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                mobile: user.mobile,
                 token: generateToken(user._id, user.role),
             });
         } else {
             res.status(401).json({ message: "Invalid credentials or role mismatch" });
         }
     } catch (error) {
+        console.log(error.message);
+
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
